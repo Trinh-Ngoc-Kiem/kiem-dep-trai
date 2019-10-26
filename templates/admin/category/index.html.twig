@@ -1,0 +1,73 @@
+{% extends '/admin/admin.html.twig' %}
+
+{% block title %}Tất cả loại sách{% endblock %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        Quản lý loại sách
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fas fa-tachometer-alt"></i>Home</a></li>
+        <li><a href="#">Quản lý loại sách</a></li>
+        <li class="active"><a href="#">Tất cả</a></li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <a href="{{ path('category-add')}} "><button class="btn btn-info" style="float:right;">Thêm mới</button></a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="box-body">
+                    <table id="jobs" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th width="10%">Mã loại sách</th>
+                            <th>Tên loại sách</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày cập nhật</th>
+                            <th colspan="2">Thao Tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for category in categories %}
+                            <tr>
+                                <td>{{ category.id }}</td>
+                                <td>{{ category.categoryName}}</td>
+                                <td>{{ category.createdAt.format('d-m-Y') }}</td>
+                                <td>{{ category.updatedAt.format('d-m-Y') }}</td>
+                                <td>
+                                    <a href="{{ path('category-edit', {id : category.id}) }}">
+                                        <button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                    </a>
+                                    <a href="{{ path('category-delete', {id : category.id}) }}" class="btn btn-danger btnDelete" data-toggle="modal" data-target="#myModalDelete" onclick="return submitDelete(this);">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th width="5%">Mã loại sách</th>
+                            <th>Tên loại sách</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày cập nhật</th>
+                            <th colspan="2">Thao Tác</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include('admin/partials/popup-delete.html.twig') %}
+{% endblock %}

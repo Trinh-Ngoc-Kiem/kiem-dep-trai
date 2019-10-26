@@ -1,0 +1,66 @@
+{% extends('admin/admin.html.twig') %}
+{% block title %}Thêm mới sách{% endblock %}
+{% block content %}
+<section class="content-header">
+    <h1>
+        Thêm mới sách
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li><a href="#">Quản lý sách</a></li>
+        <li class="active"><a href="#"> Thêm mới</a></li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <form role="form" action="{{ path('book-store') }}" method="POST">
+            <input type="hidden" name="token" value="{{ csrf_token('insert_book') }}">
+            <div class="col-xs-12 col-md-8">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Nội dung</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="book_name">Tên sách</label>
+                            <input type="text" id="book_name" class="form-control" name="book_name" placeholder="Tên sách" value="" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Loại sách</label>
+                            <select name="category" id="category" class="select2">
+                                {% for category in categories %}
+                                    <option class="form-group" value="{{ category.id }}">{{ category.categoryName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="content">Mô tả</label>
+                            <textarea class="form-control" id="content" name="description" rows="10" cols="80"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price">Giá bán</label>
+                            <input type="number" id="price" class="form-control" name="price" placeholder="Giá bán"  value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Hình ảnh sách</label><br>
+                            <input type="button" onclick="return uploadImage(this);" value="Chọn ảnh"
+                                   size="20" required/>
+                            <img src="" width="80" height="70"/>
+                            <input name="image" type="hidden" value=""/>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Thêm mới</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

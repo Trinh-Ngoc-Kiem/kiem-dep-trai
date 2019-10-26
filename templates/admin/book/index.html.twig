@@ -1,0 +1,85 @@
+{% extends '/admin/admin.html.twig' %}
+
+{% block title %}Tất cả sách{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            Quản lý sách
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fas fa-tachometer-alt"></i>Home</a></li>
+            <li><a href="#">Quản lý sách</a></li>
+            <li class="active"><a href="#">Tất cả</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <a href="{{ path('book-add')}} "><button class="btn btn-info" style="float:right;">Thêm mới</button></a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="box-body">
+                        <table id="jobs" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th width="10%">Mã sách</th>
+                                <th>Tên sách</th>
+                                <th>Loại sách</th>
+                                <th>Hình ảnh</th>
+                                <th>Tóm tắt</th>
+                                <th>Giá bán</th>
+                                <th>Ngày tạo</th>
+                                <th>Ngày cập nhật</th>
+                                <th colspan="2">Thao Tác</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for book in books %}
+                                <tr>
+                                    <td>{{ book.id }}</td>
+                                    <td>{{ book.bookName }}</td>
+                                    <td>{{ book.category.categoryName }}</td>
+                                    <td><img src="{{ book.image }}" width="100" alt="Ảnh truyện"></td>
+                                    <td>{{ book.description }}</td>
+                                    <td>{{ book.price }}</td>
+                                    <td>{{ book.createdAt.format('d-m-Y') }}</td>
+                                    <td>{{ book.updatedAt.format('d-m-Y') }}</td>
+                                    <td>
+                                        <a href="{{ path('book-edit', {id : book.id}) }}">
+                                            <button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        </a>
+                                        <a href="{{ path('book-destroy', {id : book.id}) }}" class="btn btn-danger btnDelete" data-toggle="modal" data-target="#myModalDelete" onclick="return submitDelete(this);">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th width="10%">Mã sách</th>
+                                <th>Tên sách</th>
+                                <th>Loại sách</th>
+                                <th>Hình ảnh</th>
+                                <th>Tóm tắt</th>
+                                <th>Giá bán</th>
+                                <th>Ngày tạo</th>
+                                <th>Ngày cập nhật</th>
+                                <th colspan="2">Thao Tác</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% include('admin/partials/popup-delete.html.twig') %}
+{% endblock %}

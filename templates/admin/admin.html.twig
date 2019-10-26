@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="{{ asset('images/love.ico') }}" type="image/x-icon" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('administrator/fontawesome-free/css/all.css') }}">
+        <link rel="stylesheet" href="{{asset('administrator/css/skins/_all-skins.css')}}">
+        <link rel="stylesheet" href="{{ asset('administrator/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+        <link rel="stylesheet" href="{{asset('administrator/bootstrap/dist/css/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{asset('administrator/css/AdminLTE.css')}}">
+        <link rel="stylesheet" href="{{asset('administrator/css/app.css')}}">
+        <link rel="stylesheet" href="{{ asset('administrator/css/skins/_all-skins.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('administrator/css/styles.css') }}">
+        <link rel="stylesheet" href="{{ asset('administrator/font-awesome/css/font-awesome.css') }}">
+        <link rel="stylesheet" href="{{ asset('administrator/select2/dist/css/select2.min.css') }}">
+        <script src="{{ asset('administrator/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('administrator/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('administrator/ckeditor/ckeditor.js') }}"></script>
+        <script src="{{ asset('administrator/js/adminlte.min.js') }}"></script>
+        <script src="{{ asset('administrator/js/demo.js') }}"></script>
+        <script src="{{ asset('administrator/select2/dist/js/select2.full.js') }}"></script>
+        <link rel="stylesheet" href="{{asset('administrator/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+        {% block stylesheets %}{% endblock %}
+    </head>
+
+    <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        {% include 'admin/common/header.html.twig' %}
+        {% include 'admin/common/sidebar.html.twig' %}
+        <div class="content-wrapper">
+            <div style="color: red; text-align: center">
+            </div>
+            {% block content %}{% endblock %}
+        </div>
+        {% include 'admin/common/footer.html.twig' %}
+    </div>
+    {% block javascripts %}{% endblock %}
+    </body>
+    <script>
+
+        $('.select2').select2({
+            width: '100%'
+        });
+
+        $('.editor').each(function(e){
+            CKEDITOR.replace( this.id, {
+                filebrowserImageBrowseUrl : '/kcfinder-master/browse.php?type=images&dir=images/public',
+            });
+        });
+
+        function uploadImage(e) {
+            window.KCFinder = {
+                callBack: function(url) {window.KCFinder = null;
+                    var img = new Image();
+                    img.src = url;
+                    $(e).next().attr("src",url);
+                    $(e).next().next().val(url);
+                }
+            };
+            window.open('/kcfinder-master/browse.php?type=images&dir=images/public',
+                'kcfinder_image', 'status=0, toolbar=0, location=0, menubar=0, ' +
+                'directories=0, resizable=1, scrollbars=0, width=800, height=600'
+            );
+        }
+        function openKCFinder(e) {
+            window.KCFinder = {
+                callBackMultiple: function (files) {
+                    window.KCFinder = null;
+                    var urlFiles = "";
+                    $(e).next().empty();
+                    for (var i = 0; i < files.length; i++) {
+                        $(e).next().append('<img src="' + files[i] + '" width="80" height="70" style="margin-left: 5px; margin-bottom: 5px;"/>');
+                        urlFiles += files[i];
+                        if (i < (files.length - 1)) {
+                            urlFiles += ',';
+                        }
+                    }
+
+                    $(e).next().next().val(urlFiles);
+                }
+            };
+            window.open('/kcfinder-master/browse.php?type=images&dir=images/public',
+                'kcfinder_multiple', 'status=0, toolbar=0, location=0, menubar=0, ' +
+                'directories=0, resizable=1, scrollbars=0, width=800, height=600'
+            );
+        }
+    </script>
+</html>
