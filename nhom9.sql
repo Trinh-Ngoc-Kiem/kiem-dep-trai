@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 26, 2019 lúc 03:34 PM
+-- Thời gian đã tạo: Th10 27, 2019 lúc 04:10 PM
 -- Phiên bản máy phục vụ: 10.1.39-MariaDB
 -- Phiên bản PHP: 7.3.5
 
@@ -30,13 +30,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `book` (
   `id` int(11) NOT NULL,
-  `book_name` text COLLATE utf8mb4_unicode_ci,
+  `book_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `category_id` int(11) NOT NULL,
-  `image` text COLLATE utf8mb4_unicode_ci,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `price` double DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price` double NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -44,9 +44,8 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`id`, `book_name`, `category_id`, `image`, `description`, `price`, `created_at`, `updated_at`) VALUES
-(1, 'Thám tử lừng danh Conan', 1, '/public/lib/images/Conan.jpg', '<p>Th&aacute;m tử lừng danh Conan</p>\r\n', 25, '2019-10-25 10:53:55', '2019-10-25 15:53:55'),
-(2, 'Số đỏ', 2, '/public/lib/images/S%E1%BB%91%20%C4%91%E1%BB%8F.jpg', '<p>Truyện d&agrave;i 20 chương v&agrave; được bắt đầu khi b&agrave; Ph&oacute; Đoan đến chơi ở s&acirc;n quần vợt&nbsp;nơi Xu&acirc;n t&oacute;c đỏ l&agrave;m việc.&nbsp;</p>\r\n', 150000, '2019-10-25 16:11:14', '2019-10-25 11:11:14'),
-(3, 'Chìa khóa vũ trụ của George', 3, '/public/lib/images/Ch%C3%ACa%20kh%C3%B3a%20v%C5%A9%20tr%E1%BB%A5.jpg', '<p>Cuốn s&aacute;ch lồng gh&eacute;p những kiến thức cơ bản nhất về vũ trụ xung quanh ch&uacute;ng ta v&agrave;o c&acirc;u chuyện đời thường của một cậu b&eacute; đam m&ecirc; khoa học George.</p>\r\n', 50000, '2019-10-25 22:46:59', '2019-10-26 03:46:59');
+(1, 'Thám tử lừng danh Conan', 3, '/public/lib/images/Conan.jpg', 'Kudo Shinichi là một thám tử trung học rất nổi tiếng, thường xuyên giúp cảnh sát phá giải các vụ án khó khăn. Trong một lần khi đang theo dõi 1 vụ tống tiền, cậu bị đồng bọn (thành viên của Tổ chức Áo đen) phát hiện.', 20000, '2019-10-27 04:12:20', '2019-10-27 04:14:16'),
+(2, 'Số đỏ', 2, '/public/lib/images/S%E1%BB%91%20%C4%91%E1%BB%8F.jpg', 'Số đỏ là một tiểu thuyết văn học của nhà văn Vũ Trọng Phụng, đăng ở Hà Nội báo từ số 40 ngày 7 tháng 10 năm 1936 và được in thành sách lần đầu vào năm 1938.', 100000, '2019-10-27 04:15:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -56,9 +55,9 @@ INSERT INTO `book` (`id`, `book_name`, `category_id`, `image`, `description`, `p
 
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
-  `category_name` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `category_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -66,9 +65,10 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `category_name`, `created_at`, `updated_at`) VALUES
-(1, 'Truyện tranh', '2019-10-25 08:37:58', '2019-10-25 13:37:58'),
-(2, 'Tiểu thuyết', '2019-10-25 08:38:18', '2019-10-25 13:38:18'),
-(3, 'Sách khoa học - viễn tưởng', '2019-10-25 15:51:20', '2019-10-25 10:51:20');
+(1, 'Sách chính trị - pháp luật', '2019-10-27 04:10:08', NULL),
+(2, 'Sách tiểu thuyết', '2019-10-27 04:10:18', NULL),
+(3, 'Sách thiếu nhi', '2019-10-27 04:10:27', NULL),
+(4, 'Sách văn học - nghệ thuật', '2019-10-27 04:10:48', NULL);
 
 -- --------------------------------------------------------
 
@@ -81,6 +81,15 @@ CREATE TABLE `migration_versions` (
   `executed_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `migration_versions`
+--
+
+INSERT INTO `migration_versions` (`version`, `executed_at`) VALUES
+('20191026165200', '2019-10-26 16:52:11'),
+('20191026165447', '2019-10-26 16:55:05'),
+('20191026165820', '2019-10-26 16:58:37');
+
 -- --------------------------------------------------------
 
 --
@@ -89,21 +98,20 @@ CREATE TABLE `migration_versions` (
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` int(11) DEFAULT NULL,
+  `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` int(11) NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` tinyint(4) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `roles` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `user`
 --
 
-INSERT INTO `user` (`user_id`, `name`, `email`, `phone`, `password`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Trịnh Ngọc Kiềm', 'kiemhoangtunho98@gmail.com', 358508484, '$2y$10$W/Yaw3gqSUj9gBoTRyS1hOF6ZYcEpgYVT6zklgyxoUE.DmzO/tf0W', 1, '2019-10-24 03:38:34', '2019-10-23 17:00:00');
+INSERT INTO `user` (`user_id`, `email`, `name`, `phone`, `password`, `roles`) VALUES
+(1, 'kiemhoangtunho98@gmail.com', 'Kiềm Đẹp Trai', 358508484, '$2y$10$W/Yaw3gqSUj9gBoTRyS1hOF6ZYcEpgYVT6zklgyxoUE.DmzO/tf0W', ''),
+(2, 'kiemdeptrai@gmail.com', 'Kiềm Đẹp Trai', 358508484, '$2y$10$W/Yaw3gqSUj9gBoTRyS1hOF6ZYcEpgYVT6zklgyxoUE.DmzO/tf0W', '{\"ROLE_ADMIN\"}');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -113,7 +121,8 @@ INSERT INTO `user` (`user_id`, `name`, `email`, `phone`, `password`, `role`, `cr
 -- Chỉ mục cho bảng `book`
 --
 ALTER TABLE `book`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_CBE5A33112469DE2` (`category_id`);
 
 --
 -- Chỉ mục cho bảng `category`
@@ -131,7 +140,8 @@ ALTER TABLE `migration_versions`
 -- Chỉ mục cho bảng `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
@@ -141,19 +151,29 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT cho bảng `book`
 --
 ALTER TABLE `book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Các ràng buộc cho các bảng đã đổ
+--
+
+--
+-- Các ràng buộc cho bảng `book`
+--
+ALTER TABLE `book`
+  ADD CONSTRAINT `FK_CBE5A33112469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
