@@ -50,7 +50,7 @@
                                     <td>{{ book.description }}</td>
                                     <td>{{ book.price }}</td>
                                     <td>{{ book.createdAt.format('d-m-Y') }}</td>
-                                    <td>{{ book.updatedAt.format('d-m-Y') }}</td>
+                                    <td>{{ book.updatedAt != null ? book.updatedAt.format('d-m-Y') : ''}}</td>
                                     <td>
                                         <a href="{{ path('book-edit', {id : book.id}) }}">
                                             <button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button>

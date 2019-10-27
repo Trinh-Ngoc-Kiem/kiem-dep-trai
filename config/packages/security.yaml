@@ -41,6 +41,6 @@ security:
         ROLE_ADMIN:  ROLE_ADMIN
 
     access_control:
-#         - { path: ^/admin, roles: ROLE_ADMIN }
-#         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/admin, roles: IS_AUTHENTICATED_FULLY }
+         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#         - { path: ^/profile, roles: ROLE_USER }

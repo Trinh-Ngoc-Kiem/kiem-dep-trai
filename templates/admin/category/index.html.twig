@@ -42,7 +42,7 @@
                                 <td>{{ category.id }}</td>
                                 <td>{{ category.categoryName}}</td>
                                 <td>{{ category.createdAt.format('d-m-Y') }}</td>
-                                <td>{{ category.updatedAt.format('d-m-Y') }}</td>
+                                <td>{{ category.updatedAt != null ? category.updatedAt.format('d-m-Y') : ''  }}</td>
                                 <td>
                                     <a href="{{ path('category-edit', {id : category.id}) }}">
                                         <button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button>

@@ -27,15 +27,16 @@ class User implements UserInterface
      */
     private $name;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $role;
 
     /**
      * @ORM\Column(type="integer")
      */
     private $phone;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles;
 
     /**
      * @var string The hashed password
@@ -74,21 +75,10 @@ class User implements UserInterface
      * @see UserInterface
      */
 
-    /**
-     * @return mixed
-     */
-    public function getRole(): ?int
-    {
-        return $this->role;
-    }
 
     public function getRoles(): array
     {
-        if ($this->role === 1){
-            $roles[] = 'ROLE_ADMIN';
-            return array_unique($roles);
-        }
-
+        $roles = $this->roles;
         $roles[] = 'ROLE_USER';
         return array_unique($roles);
     }
@@ -108,15 +98,6 @@ class User implements UserInterface
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @param mixed $role
-     */
-    public function setRole($role): self
-    {
-        $this->role = $role;
-        return $this;
     }
 
     /**

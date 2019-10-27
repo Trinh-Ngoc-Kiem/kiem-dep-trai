@@ -66,8 +66,7 @@ class AuthenticatorAdmin extends AbstractFormLoginAuthenticator
         }
 
         $user = $this->entityManager->getRepository(User::class)
-                                    ->findOneBy(['email' => $credentials['email'],
-                                                 'role' => 1]);
+                                    ->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('Thông tin tài khoản hoặc mật khẩu không chính xác !');
